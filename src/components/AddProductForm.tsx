@@ -1,6 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useProducts } from '../context/ProductContext';
+import { useLanguage } from '../context/languageContext';
+import TranslatedText from './TranslatedText';
 
 interface FormData {
   name: string;
@@ -11,6 +13,7 @@ interface FormData {
 
 const AddProductForm: React.FC = () => {
   const { addProduct } = useProducts();
+  const { translate } = useLanguage();
   const {
     register,
     handleSubmit,
@@ -30,7 +33,7 @@ const AddProductForm: React.FC = () => {
       name: data.name,
       price: Number(data.price),
       description: data.description,
-      imageUrl: data.imageUrl || 'https://placehold.co/600x400https://placehold.co/600x400',
+      imageUrl: data.imageUrl || 'https://placehold.co/600x400',
     });
     reset();
   };
@@ -47,7 +50,9 @@ const AddProductForm: React.FC = () => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm max-w-2xl mx-auto">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Add New Product</h2>
+      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <TranslatedText text="Add New Product" />
+      </h2>
       
       {isSubmitSuccessful && (
         <div className="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-md flex items-center">
@@ -63,14 +68,14 @@ const AddProductForm: React.FC = () => {
               clipRule="evenodd"
             />
           </svg>
-          Product successfully added!
+          <TranslatedText text="Product successfully added!" />
         </div>
       )}
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Product Name *
+            <TranslatedText text="Product Name" /> *
           </label>
           <input
             id="name"
@@ -82,13 +87,15 @@ const AddProductForm: React.FC = () => {
             {...register('name', { required: 'Product name is required' })}
           />
           {errors.name && (
-            <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              <TranslatedText text={errors.name.message || 'Product name is required'} />
+            </p>
           )}
         </div>
         
         <div>
           <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-            Price ($) *
+            <TranslatedText text="Price" /> ($) *
           </label>
           <input
             id="price"
@@ -106,13 +113,15 @@ const AddProductForm: React.FC = () => {
             })}
           />
           {errors.price && (
-            <p className="mt-1 text-sm text-red-600">{errors.price.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              <TranslatedText text={errors.price.message || 'Price is required'} />
+            </p>
           )}
         </div>
         
         <div>
           <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-            Description *
+            <TranslatedText text="Description" /> *
           </label>
           <textarea
             id="description"
@@ -127,13 +136,15 @@ const AddProductForm: React.FC = () => {
             })}
           />
           {errors.description && (
-            <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              <TranslatedText text={errors.description.message || 'Description is required'} />
+            </p>
           )}
         </div>
         
         <div>
           <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700 mb-1">
-            Image URL (Optional)
+            <TranslatedText text="Image URL" /> (<TranslatedText text="Optional" />)
           </label>
           <input
             id="imageUrl"
@@ -148,10 +159,12 @@ const AddProductForm: React.FC = () => {
             })}
           />
           {errors.imageUrl && (
-            <p className="mt-1 text-sm text-red-600">{errors.imageUrl.message}</p>
+            <p className="mt-1 text-sm text-red-600">
+              <TranslatedText text={errors.imageUrl.message || 'Invalid image URL'} />
+            </p>
           )}
           <p className="mt-1 text-xs text-gray-500">
-            Leave blank to use a placeholder image
+            <TranslatedText text="Leave blank to use a placeholder image" />
           </p>
         </div>
         
@@ -183,10 +196,10 @@ const AddProductForm: React.FC = () => {
                     d="M4 12a8 8 0 018-8v8H4z"
                   ></path>
                 </svg>
-                Adding Product...
+                <TranslatedText text="Adding Product..." />
               </>
             ) : (
-              'Add Product'
+              <TranslatedText text="Add Product" />
             )}
           </button>
         </div>
